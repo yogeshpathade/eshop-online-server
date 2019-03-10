@@ -1,0 +1,313 @@
+{
+	"info": {
+		"name": "eshop-online",
+		"_postman_id": "9c4c4ce3-6aa7-2714-7b23-d055a8fa8150",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "user signup",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Creating Store Manager User\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([201, 200]);",
+							"});",
+							""
+						]
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var uuid = require('uuid');",
+							"pm.globals.set('emailRandom', uuid.v4());"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"emailId\": \"{{emailRandom}}@gmail.com\",\n\t\"password\":\"password\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"user"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "user authenticate",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Login user\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([201, 200]);",
+							"});",
+							"",
+							"",
+							"if(pm.expect(pm.response).to.have.status(200)){",
+							"    postman.setGlobalVariable(\"eshop_token\", pm.response.json().token);",
+							"}"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"emailId\": \"{{emailRandom}}@gmail.com\",\n\t\"password\":\"password\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/user/authenticate",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"user",
+						"authenticate"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "create Product",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Creating Customer for the User\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([201, 200]);",
+							"});",
+							""
+						]
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var uuid = require('uuid');",
+							"pm.globals.set('brandRandom', uuid.v4());"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "JWT {{eshop_token}}"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"brand\": \"{{brandRandom}}\",\n  \"sizeRange\": \"6-9\",\n  \"price\": \"99.99\",\n  \"batchId\": 765444,\n  \"stock\": 56,\n  \"manufacturingYear\": \"2018\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/product",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"product"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "get products",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"get all the products\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([201, 200]);",
+							"});",
+							"",
+							"if(pm.expect(pm.response).to.have.status(200)){",
+							"    postman.setGlobalVariable(\"productId\", pm.response.json().products[0]._id);",
+							"}"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "JWT {{eshop_token}}"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:3000/api/product",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"product"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "get product by Id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Creating Customer for the User\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([201, 200]);",
+							"});",
+							"",
+							"if(pm.expect(pm.response).to.have.status(200)){",
+							"    postman.setGlobalVariable(\"brand\", pm.response.json().brand);",
+							"    postman.setGlobalVariable(\"sizeRange\", pm.response.json().sizeRange);",
+							"    postman.setGlobalVariable(\"price\", pm.response.json().price);",
+							"    postman.setGlobalVariable(\"batchId\", pm.response.json().batchId);",
+							"    postman.setGlobalVariable(\"manufacturingYear\", pm.response.json().manufacturingYear);",
+							"}",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "JWT {{eshop_token}}"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:3000/api/product/{{productId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"product",
+						"{{productId}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "update product",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Creating Customer for the User\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([201, 200]);",
+							"});",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "JWT {{eshop_token}}"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": \"{{productId}}\",\n    \"brand\": \"{{brand}}\",\n    \"sizeRange\": \"{{sizeRange}}\",\n    \"price\": \"{{price}}\",\n    \"batchId\": {{batchId}},\n    \"stock\": 46,\n    \"manufacturingYear\": \"{{manufacturingYear}}\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/product",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"product"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

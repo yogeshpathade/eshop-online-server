@@ -1,0 +1,13 @@
+{
+  "application": {
+    "name": "eshop-online-server"
+  },
+  "appEnv": "dev",
+  "appPort": "3000",
+  "secret": "a271ea92-7b8c-4c0d-bef2-956b330bac11",
+  "database" : {
+    "mongodb" : {
+      "connectionUrl": "mongodb://localhost:27017/eshop"
+    }
+  }
+}
