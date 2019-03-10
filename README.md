@@ -2,6 +2,12 @@
 This Implementation includes secure Restful APIs. The APIs include user signup, authentication, 
 hashing of passwords and signing of JWT tokens to be used in the secured APIs.
 
+#### Pre-requisites
+- NodeJs
+- NPM
+- MongoDB
+- [bcrypt](https://www.npmjs.com/package/bcrypt) - Please read about the dependencies. if you fail to do npm install. You probably need to install python for bcrypt to build the binary.
+
 #### To install the NodeJs Server
 * clone the repo using ```git clone```
 * Run ```npm install```
